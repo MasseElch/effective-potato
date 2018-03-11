@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\V1;
+namespace App\Controller;
 
 use App\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
