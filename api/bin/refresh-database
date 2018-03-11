@@ -1,0 +1,5 @@
+#!/bin/sh
+
+php bin/console doctrine:schema:drop --force
+php bin/console doctrine:schema:create
+echo 'y\n' | php bin/console hautelook:fixtures:load
