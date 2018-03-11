@@ -24,6 +24,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "hautelook/alice-bundle": "^2.0",
         "nelmio/alice": "^3.2",
+        "symfony/debug-pack": "^1.0",
         "symfony/dotenv": "^4.0",
         "theofidry/alice-data-fixtures": "^1.0"
     },
