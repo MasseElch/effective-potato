@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -54,6 +55,20 @@ class User implements UserInterface
      * @var boolean
      */
     private $enabled;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AccountOwnership", mappedBy="user")
+     *
+     * @var Collection|AccountOwnership[]
+     */
+    private $accountOwnerships;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BudgetOwnership", mappedBy="user")
+     *
+     * @var Collection|BudgetOwnership[]
+     */
+    private $budgetOwnerships;
 
     public function __construct()
     {
