@@ -1,0 +1,25 @@
+App\Entity\AccountOwnership:
+
+    # jcl accounts
+    accountOwnership_jcl_{checking, cash}:
+        account: '@account_jcl_<current()>'
+        user: '@user_jcl'
+
+    # mur accounts
+    accountOwnership_mur_checking:
+        account: '@account_mur_checking'
+        user: '@user_mur'
+
+    # shared accounts (jcl and mur)
+    accountOwnership_shared_checking_mur:
+        account: '@account_shared_checking'
+        user: '@user_mur'
+    accountOwnership_shared_checking_jcl:
+        account: '@account_shared_checking'
+        user: '@user_jcl'
+    accountOwnership_shared_cash_mur:
+        account: '@account_shared_cash'
+        user: '@user_mur'
+    accountOwnership_shared_cash_jcl:
+        account: '@account_shared_cash'
+        user: '@user_jcl'

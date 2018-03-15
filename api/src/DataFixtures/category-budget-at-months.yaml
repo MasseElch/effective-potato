@@ -1,0 +1,17 @@
+include:
+    - parameters.yaml
+
+App\Entity\CategoryBudgetAtMonth:
+
+    categoryBudgetAtMonth (template):
+        date: <dateTimeThisMonth()>
+        budget: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
+        category: '@defaultCategory_<current()>'
+
+    # add two entries for each budget (jcl, mur, shared)
+    categoryBudgetAtMonth_{jcl, mur, shared} (extends categoryBudgetAtMonth):
+
+#    # shared budget (jcl and mur)
+#    budgetOwnership_shared_{jcl, mur}:
+#        budget: '@budget_shared'
+#        user: '@user_<current()>'

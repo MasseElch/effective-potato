@@ -1,0 +1,20 @@
+include:
+    - parameters.yaml
+
+App\Entity\Account:
+
+    account (template):
+        balance: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
+        title: <ucfirst($current)>
+
+    # jcl accounts
+    account_jcl_{checking, cash} (extends account):
+        budget: '@budget_jcl'
+
+    # mur accounts
+    account_mur_{checking, cash} (extends account):
+        budget: '@budget_mur'
+
+    # shared accounts (jcl and mur)
+    account_shared_{checking, cash} (extends account):
+        budget: '@budget_shared'

@@ -1,0 +1,3 @@
+parameters:
+    account_balance: 150000
+    account_currency: EUR

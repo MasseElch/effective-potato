@@ -165,4 +165,81 @@ class User implements UserInterface
     {
         return $this->email;
     }
+
+    /**
+     * @return AccountOwnership[]|Collection
+     */
+    public function getAccountOwnerships()
+    {
+        return $this->accountOwnerships;
+    }
+
+    /**
+     * @param AccountOwnership[]|Collection $accountOwnerships
+     */
+    public function setAccountOwnerships($accountOwnerships): void
+    {
+        $this->accountOwnerships = $accountOwnerships;
+    }
+
+    /**
+     * @return BudgetOwnership[]|Collection
+     */
+    public function getBudgetOwnerships()
+    {
+        return $this->budgetOwnerships;
+    }
+
+    /**
+     * @param BudgetOwnership[]|Collection $budgetOwnerships
+     */
+    public function setBudgetOwnerships($budgetOwnerships): void
+    {
+        $this->budgetOwnerships = $budgetOwnerships;
+    }
+
+    /**
+     * @param AccountOwnership $accountOwnership
+     */
+    public function addAccountOwnership(AccountOwnership $accountOwnership)
+    {
+        if (!$this->accountOwnerships->contains($accountOwnership)) {
+            $this->accountOwnerships->add($accountOwnership);
+            $accountOwnership->setUser($this);
+        }
+    }
+
+    /**
+     * @param AccountOwnership $accountOwnership
+     */
+    public function removeAccountOwnership(AccountOwnership $accountOwnership)
+    {
+        if ($this->accountOwnerships->contains($accountOwnership)) {
+            $this->accountOwnerships->removeElement($accountOwnership);
+            $accountOwnership->setUser(null);
+        }
+    }
+
+    /**
+     * @param BudgetOwnership $budgetOwnership
+     */
+    public function addBudgetOwnership(BudgetOwnership $budgetOwnership)
+    {
+        if (!$this->budgetOwnerships->contains($budgetOwnership)) {
+            $this->budgetOwnerships->add($budgetOwnership);
+            $budgetOwnership->setUser($this);
+        }
+    }
+
+    /**
+     * @param BudgetOwnership $budgetOwnership
+     */
+    public function removeBudgetOwnership(BudgetOwnership $budgetOwnership)
+    {
+        if ($this->budgetOwnerships->contains($budgetOwnership)) {
+            $this->budgetOwnerships->removeElement($budgetOwnership);
+            $budgetOwnership->setUser(null);
+        }
+    }
+
 }

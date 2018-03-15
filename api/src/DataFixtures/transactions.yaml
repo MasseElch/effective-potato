@@ -1,0 +1,21 @@
+include:
+    - parameters.yaml
+
+App\Entity\Transaction:
+
+    transaction (template):
+        date: <dateTimeThisMonth()>
+        account: '@account_<current()>'
+        amount: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
+
+    # Transactions for jcl budget
+    transaction_{jcl_checking, jcl_cash} (extends transaction):
+        category: '@defaultCategory_jcl'
+
+    # Transactions for mur budget
+    transaction_{mur_checking, mur_cash} (extends transaction):
+        category: '@defaultCategory_mur'
+
+    # Transactions for shared budget
+    transaction_{shared_checking, shared_cash} (extends transaction):
+        category: '@defaultCategory_shared'

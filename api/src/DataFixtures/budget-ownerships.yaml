@@ -1,0 +1,11 @@
+App\Entity\BudgetOwnership:
+
+    # private (jcl and mur)
+    budgetOwnership_{jcl, mur}:
+        budget: '@budget_<current()>'
+        user: '@user_<current()>'
+
+    # shared budget (jcl and mur)
+    budgetOwnership_shared_{jcl, mur}:
+        budget: '@budget_shared'
+        user: '@user_<current()>'

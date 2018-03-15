@@ -1,0 +1,5 @@
+App\Entity\DefaultCategory:
+
+    # One default category for each budget (jcl, mur, shared)
+    defaultCategory_{jcl, mur, shared}:
+        title: <ucfirst($current)> Budget Category

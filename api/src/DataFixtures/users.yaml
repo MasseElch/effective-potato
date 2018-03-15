@@ -1,4 +1,5 @@
 App\Entity\User:
+
     user_{jcl, mur}:
         setPlainPassword: test
         email: <current()>\@masseelch.de
