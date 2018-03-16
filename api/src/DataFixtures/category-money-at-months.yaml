@@ -1,0 +1,13 @@
+include:
+    - parameters.yaml
+
+App\Entity\CategoryMoneyAtMonth:
+
+    categoryMoneyAtMonth (template):
+        year: <(Cake\Chronos\Date::now()->year)>
+        month: <(Cake\Chronos\Date::now()->month)>
+        money: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
+        category: '@defaultCategory_<current()>'
+
+    # add an entry for each budget (jcl, mur, shared)
+    categoryMoneyAtMonth_{jcl, mur, shared} (extends categoryMoneyAtMonth):

@@ -43,7 +43,7 @@ class Account
      *
      * @var Money
      */
-    private $balance;
+    private $money;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Budget", inversedBy="accounts")
@@ -99,17 +99,17 @@ class Account
     /**
      * @return Money
      */
-    public function getBalance(): Money
+    public function getMoney(): Money
     {
-        return $this->balance;
+        return $this->money;
     }
 
     /**
-     * @param Money $balance
+     * @param Money $money
      */
-    public function setBalance(Money $balance): void
+    public function setMoney(Money $money): void
     {
-        $this->balance = $balance;
+        $this->money = $money;
     }
 
     /**

@@ -4,15 +4,17 @@ namespace App\Entity;
 
 use Cake\Chronos\Chronos;
 use Cake\Chronos\Date;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Money\Money;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryBudgetAtMonthRepository")
+ * @ORM\Entity(repositoryClass="CategoryMoneyAtMonthRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"month", "year", "category_id"})})
  */
-class CategoryBudgetAtMonth
+class CategoryMoneyAtMonth
 {
     use TimestampableEntity;
 
@@ -20,6 +22,8 @@ class CategoryBudgetAtMonth
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"category_budget_list"})
      *
      * @var int
      */
@@ -40,18 +44,36 @@ class CategoryBudgetAtMonth
     private $year;
 
     /**
+     * @ORM\Embedded(class="Money\Money")
+     *
+     * @Groups({"category_budget_list"})
+     *
+     * @var Money
+     */
+    private $money;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="categoryBudgetAtMonths")
+     *
+     * @Groups({"category_budget_list"})
      *
      * @var Category
      */
     private $category;
 
     /**
-     * @ORM\Embedded(class="Money\Money")
+     * @ORM\OneToMany(targetEntity="App\Entity\BudgetTransaction", mappedBy="target")
      *
-     * @var Money
+     * @var Collection|BudgetTransaction[]
      */
-    private $budget;
+    private $inflows;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BudgetTransaction", mappedBy="source")
+     *
+     * @var Collection|BudgetTransaction[]
+     */
+    private $outflows;
 
     /**
      * @return int
@@ -94,6 +116,22 @@ class CategoryBudgetAtMonth
     }
 
     /**
+     * @return Money
+     */
+    public function getMoney(): Money
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param Money $money
+     */
+    public function setMoney(Money $money): void
+    {
+        $this->money = $money;
+    }
+
+    /**
      * @return Category
      */
     public function getCategory(): Category
@@ -107,21 +145,5 @@ class CategoryBudgetAtMonth
     public function setCategory(Category $category): void
     {
         $this->category = $category;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getBudget(): Money
-    {
-        return $this->budget;
-    }
-
-    /**
-     * @param Money $budget
-     */
-    public function setBudget(Money $budget): void
-    {
-        $this->budget = $budget;
     }
 }

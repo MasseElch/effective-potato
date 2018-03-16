@@ -19,6 +19,7 @@ class BudgetController extends Controller
 {
     /**
      * @Rest\Get("/{id}")
+     *
      * @param Budget $budget
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
@@ -26,6 +27,6 @@ class BudgetController extends Controller
     {
         $this->denyAccessUnlessGranted(BudgetVoter::VIEW, $budget);
 
-        return $this->json($budget, Response::HTTP_OK, [], ['groups' => ['budget_details', 'account_list', 'budget_ownership_list', 'user_list']]);
+        return $this->json($budget, Response::HTTP_OK, [], ['groups' => ['budget_details', 'account_list', 'budget_ownership_list', 'user_list', 'category_list']]);
     }
 }

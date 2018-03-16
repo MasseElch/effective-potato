@@ -46,7 +46,7 @@ class BudgetVoter extends Voter
         switch ($attribute) {
             case self::VIEW:
                 // Can only view if there does exist an ownership of the given budget
-                return !!$this->budgetOwnershipRepository->findBy(['user' => $user, 'budget' => $budget]);
+                return $this->budgetOwnershipRepository->count(['user' => $user, 'budget' => $budget]);
                 break;
         }
 

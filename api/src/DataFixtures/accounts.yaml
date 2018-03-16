@@ -4,7 +4,7 @@ include:
 App\Entity\Account:
 
     account (template):
-        balance: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
+        money: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
         title: <ucfirst($current)>
 
     # jcl accounts

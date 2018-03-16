@@ -38,6 +38,8 @@ class Budget
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\DefaultCategory")
      *
+     * @Groups({"budget_details"})
+     *
      * @var defaultCategory
      */
     private $defaultCategory;
@@ -52,7 +54,7 @@ class Budget
     private $accounts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BudgetOwnership", mappedBy="budget")
+     * @ORM\OneToMany(targetEntity="App\Entity\BudgetOwnership", mappedBy="budget", fetch="EXTRA_LAZY")
      *
      * @Groups({"budget_details"})
      *
@@ -62,6 +64,8 @@ class Budget
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="budget")
+     *
+     * @Groups({"budget_details"})
      *
      * @var Collection|Category[]
      */

@@ -3,3 +3,4 @@ App\Entity\Category:
     category_{1..30}:
         budget: '@budget_*'
         title: <word()>
+        money: <(new Money\Money(0, new Money\Currency($account_currency)))>

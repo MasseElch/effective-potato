@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Money\Money;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -20,6 +22,8 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
+     * @Groups({"category_list"})
+     *
      * @var int
      */
     protected $id;
@@ -27,9 +31,20 @@ class Category
     /**
      * @ORM\Column(type="string")
      *
+     * @Groups({"category_list"})
+     *
      * @var string
      */
     protected $title;
+
+    /**
+     * @ORM\Embedded(class="Money\Money")
+     *
+     * @Groups({"category_list"})
+     *
+     * @var Money
+     */
+    protected $money;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Budget", inversedBy="categories")
@@ -39,9 +54,9 @@ class Category
     protected $budget;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CategoryBudgetAtMonth", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="CategoryMoneyAtMonth", mappedBy="category")
      *
-     * @var Collection|CategoryBudgetAtMonth[]
+     * @var Collection|CategoryMoneyAtMonth[]
      */
     protected $categoryBudgetAtMonths;
 
@@ -83,6 +98,22 @@ class Category
     }
 
     /**
+     * @return Money
+     */
+    public function getMoney(): Money
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param Money $money
+     */
+    public function setMoney(Money $money): void
+    {
+        $this->money = $money;
+    }
+
+    /**
      * @return Budget
      */
     public function getBudget(): ?Budget
@@ -99,7 +130,7 @@ class Category
     }
 
     /**
-     * @return CategoryBudgetAtMonth[]|Collection
+     * @return CategoryMoneyAtMonth[]|Collection
      */
     public function getCategoryBudgetAtMonths()
     {
@@ -107,7 +138,7 @@ class Category
     }
 
     /**
-     * @param CategoryBudgetAtMonth[]|Collection $categoryBudgetAtMonths
+     * @param CategoryMoneyAtMonth[]|Collection $categoryBudgetAtMonths
      */
     public function setCategoryBudgetAtMonths($categoryBudgetAtMonths): void
     {
@@ -131,9 +162,9 @@ class Category
     }
 
     /**
-     * @param CategoryBudgetAtMonth $categoryBudgetAtMonth
+     * @param CategoryMoneyAtMonth $categoryBudgetAtMonth
      */
-    public function addCategoryBudgetAtMonth(CategoryBudgetAtMonth $categoryBudgetAtMonth)
+    public function addCategoryBudgetAtMonth(CategoryMoneyAtMonth $categoryBudgetAtMonth)
     {
         if (!$this->categoryBudgetAtMonths->contains($categoryBudgetAtMonth)) {
             $this->categoryBudgetAtMonths->add($categoryBudgetAtMonth);
@@ -142,9 +173,9 @@ class Category
     }
 
     /**
-     * @param CategoryBudgetAtMonth $categoryBudgetAtMonth
+     * @param CategoryMoneyAtMonth $categoryBudgetAtMonth
      */
-    public function removeCategoryBudgetAtMonth(CategoryBudgetAtMonth $categoryBudgetAtMonth)
+    public function removeCategoryBudgetAtMonth(CategoryMoneyAtMonth $categoryBudgetAtMonth)
     {
         if ($this->categoryBudgetAtMonths->contains($categoryBudgetAtMonth)) {
             $this->categoryBudgetAtMonths->removeElement($categoryBudgetAtMonth);
