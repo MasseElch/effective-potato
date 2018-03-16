@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BudgetOwnershipRepository")
@@ -16,6 +17,8 @@ class BudgetOwnership
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"budget_ownership_list"})
      *
      * @var int
      */
@@ -30,6 +33,8 @@ class BudgetOwnership
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="budgetOwnerships")
+     *
+     * @Groups({"budget_ownership_list"})
      *
      * @var User
      */

@@ -5,13 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, JWTUserInterface
 {
     use TimestampableEntity;
 
@@ -20,7 +21,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Groups({"user_token"})
+     * @Groups({"user_token", "user_list"})
      *
      * @var integer
      */
@@ -41,7 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      *
-     * @Groups({"user_token"})
+     * @Groups({"user_token", "user_list"})
      *
      * @var string
      */
@@ -89,12 +90,34 @@ class User implements UserInterface
         return array('ROLE_USER');
     }
 
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    public static function createFromPayload($username, array $payload)
+    {
+        $self = new self();
+        $self->setId($payload['user']['id']);
+        $self->setEmail($payload['username']);
+
+        return $self;
+    }
+
     /**
      * @return int
      */
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -159,11 +182,6 @@ class User implements UserInterface
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
-    }
-
-    public function getUsername()
-    {
-        return $this->email;
     }
 
     /**

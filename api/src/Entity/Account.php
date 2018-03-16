@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Money\Money;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
@@ -20,6 +21,8 @@ class Account
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
+     * @Groups({"account_list"})
+     *
      * @var int
      */
     private $id;
@@ -27,12 +30,16 @@ class Account
     /**
      * @ORM\Column(type="string")
      *
+     * @Groups({"account_list"})
+     *
      * @var string
      */
     private $title;
 
     /**
      * @ORM\Embedded(class="Money\Money")
+     *
+     * @Groups({"account_list"})
      *
      * @var Money
      */

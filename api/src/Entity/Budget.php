@@ -20,7 +20,7 @@ class Budget
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"budget_list"})
+     * @Groups({"budget_list", "budget_details"})
      *
      * @var int
      */
@@ -29,7 +29,7 @@ class Budget
     /**
      * @ORM\Column(type="string")
      *
-     * @Groups({"budget_list"})
+     * @Groups({"budget_list", "budget_details"})
      *
      * @var string
      */
@@ -45,12 +45,16 @@ class Budget
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Account", mappedBy="budget")
      *
+     * @Groups({"budget_details"})
+     *
      * @var Collection|Account[]
      */
     private $accounts;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BudgetOwnership", mappedBy="budget")
+     *
+     * @Groups({"budget_details"})
      *
      * @var Collection|BudgetOwnership[]
      */

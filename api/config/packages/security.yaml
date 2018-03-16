@@ -4,7 +4,8 @@ security:
             algorithm: bcrypt
     providers:
         jwt:
-            lexik_jwt: ~
+            lexik_jwt:
+                class: App\Entity\User
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
