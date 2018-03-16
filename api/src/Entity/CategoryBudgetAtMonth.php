@@ -10,6 +10,7 @@ use Money\Money;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryBudgetAtMonthRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"month", "year", "category_id"})})
  */
 class CategoryBudgetAtMonth
 {
@@ -25,11 +26,18 @@ class CategoryBudgetAtMonth
     private $id;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="smallint", length=2)
      *
-     * @var Date
+     * @var int
      */
-    private $date;
+    private $month;
+
+    /**
+     * @ORM\Column(type="smallint", length=4)
+     *
+     * @var int
+     */
+    private $year;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="categoryBudgetAtMonths")
@@ -54,19 +62,35 @@ class CategoryBudgetAtMonth
     }
 
     /**
-     * @return Date
+     * @return int
      */
-    public function getDate(): Date
+    public function getMonth(): int
     {
-        return $this->date;
+        return $this->month;
     }
 
     /**
-     * @param \DateTimeInterface $date
+     * @param int $month
      */
-    public function setDate(\DateTimeInterface $date): void
+    public function setMonth(int $month): void
     {
-        $this->date = Chronos::instance($date);
+        $this->month = $month;
+    }
+
+    /**
+     * @return int
+     */
+    public function getYear(): int
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param int $year
+     */
+    public function setYear(int $year): void
+    {
+        $this->year = $year;
     }
 
     /**

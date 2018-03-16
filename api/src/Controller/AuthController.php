@@ -15,22 +15,15 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 class AuthController extends Controller
 {
-    private $encoderFactory;
-    private $jwtManager;
-
-    public function __construct(EncoderFactoryInterface $encoderFactory, JWTTokenManagerInterface $jwtManager)
-    {
-        $this->encoderFactory = $encoderFactory;
-        $this->jwtManager = $jwtManager;
-    }
-
     /**
      * @Rest\Post("/token")
      *
      * @param Request $request
+     * @param EncoderFactoryInterface $encoderFactory
+     * @param JWTTokenManagerInterface $jwtManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function token(Request $request)
+    public function token(Request $request, EncoderFactoryInterface $encoderFactory, JWTTokenManagerInterface $jwtManager)
     {
         $user = $this->get('doctrine')
             ->getRepository(User::class)
@@ -38,10 +31,10 @@ class AuthController extends Controller
         $presentedPassword = $request->request->get('password');
 
         if ($user && $user->isEnabled()) {
-            $encoder = $this->encoderFactory->getEncoder($user);
+            $encoder = $encoderFactory->getEncoder($user);
             $valid = $encoder->isPasswordValid($user->getPassword(), $presentedPassword, $user->getSalt());
             if ($valid) {
-                $token = $this->jwtManager->create($user);
+                $token = $jwtManager->create($user);
                 return $this->json(compact('token'));
             }
         }

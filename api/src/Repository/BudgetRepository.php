@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Budget;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,19 @@ class BudgetRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Budget::class);
+    }
+
+    public function findByUser(User $user)
+    {
+        return $this->createQueryBuilder('budget')
+            ->select('budget')
+            ->join('budget.budgetOwnerships', 'budgetOwnerships')
+            ->join('budgetOwnerships.user', 'user')
+            ->where('user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     /*

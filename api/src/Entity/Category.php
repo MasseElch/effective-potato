@@ -85,7 +85,7 @@ class Category
     /**
      * @return Budget
      */
-    public function getBudget(): Budget
+    public function getBudget(): ?Budget
     {
         return $this->budget;
     }
