@@ -6,11 +6,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @SWG\Definition()
  */
 class User implements UserInterface, JWTUserInterface
 {
@@ -22,6 +24,8 @@ class User implements UserInterface, JWTUserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      * @Groups({"user_token", "user_list"})
+     *
+     * @SWG\Property()
      *
      * @var integer
      */
@@ -43,6 +47,8 @@ class User implements UserInterface, JWTUserInterface
      * @ORM\Column(type="string", length=60, unique=true)
      *
      * @Groups({"user_token", "user_list"})
+     *
+     * @SWG\Property()
      *
      * @var string
      */
