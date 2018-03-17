@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Money\Money;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
+ * @SWG\Definition()
  */
 class Category
 {
@@ -24,6 +26,8 @@ class Category
      *
      * @Groups({"category_list"})
      *
+     * @SWG\Property()
+     *
      * @var int
      */
     protected $id;
@@ -33,6 +37,8 @@ class Category
      *
      * @Groups({"category_list"})
      *
+     * @SWG\Property()
+     *
      * @var string
      */
     protected $title;
@@ -41,6 +47,8 @@ class Category
      * @ORM\Embedded(class="Money\Money")
      *
      * @Groups({"category_list"})
+     *
+     * @SWG\Property(property="money", ref="#/definitions/Money")
      *
      * @var Money
      */
@@ -54,11 +62,11 @@ class Category
     protected $budget;
 
     /**
-     * @ORM\OneToMany(targetEntity="CategoryMoneyAtMonth", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\BudgetedAtMonth", mappedBy="category")
      *
-     * @var Collection|CategoryMoneyAtMonth[]
+     * @var Collection|BudgetedAtMonth[]
      */
-    protected $categoryBudgetAtMonths;
+    protected $budgetedAtMonth;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="category")
@@ -69,7 +77,7 @@ class Category
 
     public function __construct()
     {
-        $this->categoryBudgetAtMonths = new ArrayCollection();
+        $this->budgetedAtMonth = new ArrayCollection();
         $this->transactions = new ArrayCollection();
     }
 
@@ -130,19 +138,19 @@ class Category
     }
 
     /**
-     * @return CategoryMoneyAtMonth[]|Collection
+     * @return BudgetedAtMonth[]|Collection
      */
-    public function getCategoryBudgetAtMonths()
+    public function getBudgetedAtMonth()
     {
-        return $this->categoryBudgetAtMonths;
+        return $this->budgetedAtMonth;
     }
 
     /**
-     * @param CategoryMoneyAtMonth[]|Collection $categoryBudgetAtMonths
+     * @param BudgetedAtMonth[]|Collection $budgetedAtMonth
      */
-    public function setCategoryBudgetAtMonths($categoryBudgetAtMonths): void
+    public function setBudgetedAtMonth($budgetedAtMonth): void
     {
-        $this->categoryBudgetAtMonths = $categoryBudgetAtMonths;
+        $this->budgetedAtMonth = $budgetedAtMonth;
     }
 
     /**
@@ -162,26 +170,27 @@ class Category
     }
 
     /**
-     * @param CategoryMoneyAtMonth $categoryBudgetAtMonth
+     * @param BudgetedAtMonth $budgetedAtMonth
      */
-    public function addCategoryBudgetAtMonth(CategoryMoneyAtMonth $categoryBudgetAtMonth)
+    public function addBudgetedAtMonth(BudgetedAtMonth $budgetedAtMonth)
     {
-        if (!$this->categoryBudgetAtMonths->contains($categoryBudgetAtMonth)) {
-            $this->categoryBudgetAtMonths->add($categoryBudgetAtMonth);
-            $categoryBudgetAtMonth->setCategory($this);
+        if (!$this->budgetedAtMonth->contains($budgetedAtMonth)) {
+            $this->budgetedAtMonth->add($budgetedAtMonth);
+            $budgetedAtMonth->setCategory($this);
         }
     }
 
     /**
-     * @param CategoryMoneyAtMonth $categoryBudgetAtMonth
+     * @param BudgetedAtMonth $budgetedAtMonth
      */
-    public function removeCategoryBudgetAtMonth(CategoryMoneyAtMonth $categoryBudgetAtMonth)
+    public function removeBudgetedAtMonth(BudgetedAtMonth $budgetedAtMonth)
     {
-        if ($this->categoryBudgetAtMonths->contains($categoryBudgetAtMonth)) {
-            $this->categoryBudgetAtMonths->removeElement($categoryBudgetAtMonth);
-            $categoryBudgetAtMonth->setCategory(null);
+        if ($this->budgetedAtMonth->contains($budgetedAtMonth)) {
+            $this->budgetedAtMonth->removeElement($budgetedAtMonth);
+            $budgetedAtMonth->setCategory(null);
         }
     }
+
 
     /**
      * @param Transaction $transaction

@@ -11,7 +11,7 @@
  */
 
 
-export interface UserInterface { 
-    id?: number;
-    email?: string;
+export interface MoneyInterface { 
+    amount?: string;
+    currency?: string;
 }

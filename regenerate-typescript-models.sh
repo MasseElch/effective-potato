@@ -13,9 +13,14 @@ for i in ${PWD}/.codegen/output/model/*.ts; do
     # Replace "ERRORUNKNOWN" with "any"
     sed -i '' -e 's/ERRORUNKNOWN/any/g' $i
 
-    # Suffix every generated interface with "Interface", revert "DateInterface" to "Date"
-    sed -i '' -E 's/( |\<)([A-Z][a-zA-Z]*) /\1\2Interface /g' $i
+    # Suffix every generated interface with "Interface"
+    # Revert "DateInterface" to "Date"
+    # Revert "ArrayInterface" to "Array"
+    # Remove the suffix from every view object
+    sed -i '' -E 's/( |\<)([A-Z][a-zA-Z]*)/\1\2Interface/g' $i
     sed -i '' -E 's/DateInterface/Date/g' $i
+    sed -i '' -E 's/ArrayInterface/Array/g' $i
+    sed -i '' -E 's/ViewInterface/View/g' $i
 done
 
 # Move the generated files to the models folder

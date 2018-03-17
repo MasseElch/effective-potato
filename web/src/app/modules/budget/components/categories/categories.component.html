@@ -1,0 +1,36 @@
+<table class="table" *ngIf="categoriesView; else spinner">
+  <thead>
+    <tr>
+      <th scope="col" i18n>Kategorie</th>
+      <th class="text-right" scope="col" i18n>Ausgaben</th>
+      <th class="text-right" scope="col" i18n>Budget</th>
+      <th class="text-right" scope="col" i18n>Gesamt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let category of categoriesView.categories">
+      <td>{{ category.title }}</td>
+      <td class="text-right">
+        <input type="text"
+               class="form-control text-right"
+               efpoSelectTextOnFocus
+               [textMask]="{mask: mask}"
+               [formControl]="currentMoneyForm.get(category.id.toString())">
+      </td>
+      <td class="text-right">
+        <input type="text"
+               class="form-control text-right"
+               efpoSelectTextOnFocus
+               [textMask]="{mask: mask}"
+               [formControl]="moneyAtMonthsForm.get(category.id.toString())">
+      </td>
+      <td class="text-right">
+        Bla
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #spinner>
+  <efpo-spinner></efpo-spinner>
+</ng-template>

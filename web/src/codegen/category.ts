@@ -9,9 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * DoInterface not edit the class manually.
  */
+import { MoneyInterface } from './money';
 
 
-export interface UserInterface { 
+export interface CategoryInterface { 
     id?: number;
-    email?: string;
+    title?: string;
+    money?: MoneyInterface;
 }

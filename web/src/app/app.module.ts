@@ -4,23 +4,21 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
-import { AnonymousGuard } from './guards/anonymous.guard';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { ApiInterceptor } from './interceptors/api.interceptor';
-import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BudgetsComponent } from './components/budgets/budgets.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { AuthService } from './core/services/auth.service';
+import { AuthGuard } from './core/guards/auth.guard';
+import { AnonymousGuard } from './core/guards/anonymous.guard';
+import { ApiInterceptor } from './core/interceptors/api.interceptor';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    BudgetsComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule,

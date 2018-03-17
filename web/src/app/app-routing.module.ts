@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { BudgetsComponent } from './components/budgets/budgets.component';
+import { LoginComponent } from './core/components/login/login.component';
 
 const routes: Routes = [
   // todo - dev
@@ -9,11 +8,12 @@ const routes: Routes = [
 
   {path: 'login', component: LoginComponent},
 
-  {path: 'budgets', component: BudgetsComponent}
+  {path: 'budgets', loadChildren: 'app/modules/budget/budget.module#BudgetModule'}
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {paramsInheritanceStrategy: 'always'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

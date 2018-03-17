@@ -6,10 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BudgetRepository")
+ * @SWG\Definition()
  */
 class Budget
 {
@@ -22,6 +24,8 @@ class Budget
      *
      * @Groups({"budget_list", "budget_details"})
      *
+     * @SWG\Property()
+     *
      * @var int
      */
     private $id;
@@ -30,6 +34,8 @@ class Budget
      * @ORM\Column(type="string")
      *
      * @Groups({"budget_list", "budget_details"})
+     *
+     * @SWG\Property()
      *
      * @var string
      */
@@ -48,6 +54,8 @@ class Budget
      * @ORM\OneToMany(targetEntity="App\Entity\Account", mappedBy="budget")
      *
      * @Groups({"budget_details"})
+     *
+     * @SWG\Property(type="array", @SWG\Items(ref="#/definitions/Account"))
      *
      * @var Collection|Account[]
      */

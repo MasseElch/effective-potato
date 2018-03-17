@@ -4,7 +4,7 @@ import * as jwt_decode from 'jwt-decode';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import { isAfter } from 'date-fns';
-import { UserInterface } from '../../codegen/user';
+import { UserInterface } from '../../../codegen/user';
 
 export interface SimpleHeaders {
     [name: string]: string;

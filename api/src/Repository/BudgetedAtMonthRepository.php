@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\CategoryMoneyAtMonth;
+use App\Entity\BudgetedAtMonth;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method CategoryMoneyAtMonth|null find($id, $lockMode = null, $lockVersion = null)
- * @method CategoryMoneyAtMonth|null findOneBy(array $criteria, array $orderBy = null)
- * @method CategoryMoneyAtMonth[]    findAll()
- * @method CategoryMoneyAtMonth[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method BudgetedAtMonth|null find($id, $lockMode = null, $lockVersion = null)
+ * @method BudgetedAtMonth|null findOneBy(array $criteria, array $orderBy = null)
+ * @method BudgetedAtMonth[]    findAll()
+ * @method BudgetedAtMonth[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryMoneyAtMonthRepository extends ServiceEntityRepository
+class BudgetedAtMonthRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CategoryMoneyAtMonth::class);
+        parent::__construct($registry, BudgetedAtMonth::class);
     }
 
     public function findByCategoriesYearAndMonth(Collection $categories, int $year, int $month) {

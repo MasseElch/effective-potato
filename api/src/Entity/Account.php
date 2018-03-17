@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Money\Money;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccountRepository")
+ * @SWG\Definition()
  */
 class Account
 {
@@ -23,6 +25,8 @@ class Account
      *
      * @Groups({"account_list"})
      *
+     * @SWG\Property()
+     *
      * @var int
      */
     private $id;
@@ -32,6 +36,8 @@ class Account
      *
      * @Groups({"account_list"})
      *
+     * @SWG\Property()
+     *
      * @var string
      */
     private $title;
@@ -40,6 +46,8 @@ class Account
      * @ORM\Embedded(class="Money\Money")
      *
      * @Groups({"account_list"})
+     *
+     * @SWG\Property(property="money", ref="#/definitions/Money")
      *
      * @var Money
      */

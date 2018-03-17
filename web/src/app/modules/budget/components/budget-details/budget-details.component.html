@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <div class="col-md-2">
+      <ng-container *ngIf="budget$ | async as budget; else spinner">
+        <h5>{{ budget.title }}</h5>
+        <h6 i18n>Konten</h6>
+        <ul class="nav flex-column">
+          <li class="nav-item" *ngFor="let account of budget.accounts">
+            <a href="#">{{ account.title }}</a>
+          </li>
+        </ul>
+        <!--<ul class="nav flex-column">-->
+        <!--<li class="nav-item"><a href="#">4</a></li>-->
+        <!--<li class="nav-item"><a href="#">5</a></li>-->
+        <!--</ul>-->
+      </ng-container>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-md-8">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #spinner>
+  <efpo-spinner></efpo-spinner>
+</ng-template>

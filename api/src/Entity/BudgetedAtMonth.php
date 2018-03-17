@@ -2,19 +2,18 @@
 
 namespace App\Entity;
 
-use Cake\Chronos\Chronos;
-use Cake\Chronos\Date;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Money\Money;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="CategoryMoneyAtMonthRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BudgetedAtMonthRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"month", "year", "category_id"})})
+ * @SWG\Definition()
  */
-class CategoryMoneyAtMonth
+class BudgetedAtMonth
 {
     use TimestampableEntity;
 
@@ -23,7 +22,9 @@ class CategoryMoneyAtMonth
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"category_budget_list"})
+     * @Groups({"budget_at_month_list"})
+     *
+     * @SWG\Property()
      *
      * @var int
      */
@@ -46,34 +47,20 @@ class CategoryMoneyAtMonth
     /**
      * @ORM\Embedded(class="Money\Money")
      *
-     * @Groups({"category_budget_list"})
+     * @Groups({"budget_at_month_list"})
+     *
+     * @SWG\Property(property="money", ref="#/definitions/Money")
      *
      * @var Money
      */
     private $money;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="categoryBudgetAtMonths")
-     *
-     * @Groups({"category_budget_list"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="budgetedAtMonth")
      *
      * @var Category
      */
     private $category;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BudgetTransaction", mappedBy="target")
-     *
-     * @var Collection|BudgetTransaction[]
-     */
-    private $inflows;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BudgetTransaction", mappedBy="source")
-     *
-     * @var Collection|BudgetTransaction[]
-     */
-    private $outflows;
 
     /**
      * @return int
