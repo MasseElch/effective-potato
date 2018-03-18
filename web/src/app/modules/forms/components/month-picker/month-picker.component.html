@@ -1,0 +1,31 @@
+<div class="d-flex flex-row align-items-center">
+
+  <button class="btn btn-link" (click)="previousMonth()">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <div class="form-group">
+    <select class="form-control" [ngModel]="_value.month" (ngModelChange)="monthChange($event)" (blur)="onTouched()">
+      <option *ngFor="let month of months; let i = index" [value]="i">
+        {{ month | date:'LLLL' }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <select class="form-control" [ngModel]="_value.year" (ngModelChange)="yearChange($event)" (blur)="onTouched()">
+      <option *ngFor="let year of years" [value]="year">
+        {{ year }}
+      </option>
+    </select>
+  </div>
+
+  <button class="btn btn-link" (click)="today()">
+    <i class="fas fa-calendar"></i>
+  </button>
+
+  <button class="btn btn-link" (click)="nextMonth()">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+
+</div>

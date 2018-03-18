@@ -3,6 +3,7 @@ import { InputComponent } from './components/input/input.component';
 import { FormsModule as AngularFormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SelectTextOnFocusDirective } from './directives/select-text-on-focus.directive';
+import { MonthPickerComponent } from './components/month-picker/month-picker.component';
 
 @NgModule({
   imports: [
@@ -12,13 +13,15 @@ import { SelectTextOnFocusDirective } from './directives/select-text-on-focus.di
   ],
   declarations: [
     InputComponent,
-    SelectTextOnFocusDirective
+    SelectTextOnFocusDirective,
+    MonthPickerComponent
   ],
   exports: [
     AngularFormsModule, ReactiveFormsModule,
 
     InputComponent,
-    SelectTextOnFocusDirective
+    SelectTextOnFocusDirective,
+    MonthPickerComponent
   ]
 })
 export class FormsModule {

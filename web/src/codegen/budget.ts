@@ -10,10 +10,12 @@
  * DoInterface not edit the class manually.
  */
 import { AccountInterface } from './account';
+import { CategoryInterface } from './category';
 
 
 export interface BudgetInterface { 
     id?: number;
     title?: string;
     accounts?: Array<AccountInterface>;
+    categories?: Array<CategoryInterface>;
 }

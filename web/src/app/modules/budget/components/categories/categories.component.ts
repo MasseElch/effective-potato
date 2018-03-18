@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CategoryService } from '../../services/category.service';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { CategoriesView } from '../../../../../codegen/categoriesView';
-import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { createNumberMask } from 'text-mask-addons/dist/textMaskAddons';
+import { BudgetService, CategoryBudgets } from '../../services/budget.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { BudgetInterface } from '../../../../../codegen/budget';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'efpo-categories',
@@ -14,11 +15,13 @@ import { createNumberMask } from 'text-mask-addons/dist/textMaskAddons';
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
 
-  routeParamSubscription: Subscription;
+  private _routeParamsSubscription: Subscription;
 
-  categoriesView: CategoriesView;
-  currentMoneyForm: FormGroup;
-  moneyAtMonthsForm: FormGroup;
+  budget: BudgetInterface;
+  year: number;
+  month: number;
+
+  form: FormGroup;
 
   mask = createNumberMask({
     prefix: '',
@@ -28,20 +31,23 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     decimalSymbol: ','
   });
 
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private fb: FormBuilder) {
+  constructor(private _budgetService: BudgetService, private _route: ActivatedRoute, private _fb: FormBuilder) {
   }
 
-  ngOnInit() {
-    this.routeParamSubscription = this.route.params.subscribe(params => {
-      this.categoryService.categories(params.id, params.year, params.month).subscribe(categoriesView => {
-        this.categoriesView = categoriesView;
-        this.currentMoneyForm = this.fb.group(categoriesView.categories.reduce((controls, category) => {
-          return {...controls, [category.id]: category.money.amount};
-        }, {}));
-        this.moneyAtMonthsForm = this.fb.group(categoriesView.categories.reduce((controls, category) => {
+  ngOnInit(): void {
+    this._routeParamsSubscription = this._route.params.subscribe(params => {
+      Observable.forkJoin(
+        this._budgetService.budgetDetails(params.id),
+        this._budgetService.categoryBudgets(params.id, params.year, params.month)
+      ).subscribe(([budget, categoryBudgets]: [BudgetInterface, CategoryBudgets]) => {
+        this.budget = budget;
+        this.year = params.year;
+        this.month = params.month;
+        this.form = this._fb.group(budget.categories.reduce((controls, category) => {
+          const value = categoryBudgets[category.id] ? categoryBudgets[category.id].money.amount : 0;
           return {
             ...controls,
-            [category.id]: categoriesView.categoryBudgetedAtMonths[category.id].money.amount
+            [category.id]: value
           };
         }, {}));
       });
@@ -49,6 +55,16 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.routeParamSubscription.unsubscribe();
+    this._routeParamsSubscription.unsubscribe();
+  }
+
+  update(): void {
+    this._budgetService.updateCategoryBudget(this.budget.id, this.form.value, this.year, this.month).subscribe(
+      (categoryBudgets: CategoryBudgets) => {
+
+      },
+      console.error // todo - error handling
+    );
+    console.log(this.form.value);
   }
 }

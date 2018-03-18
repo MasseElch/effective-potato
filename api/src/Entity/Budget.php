@@ -75,6 +75,8 @@ class Budget
      *
      * @Groups({"budget_details"})
      *
+     * @SWG\Property(type="array", @SWG\Items(ref="#/definitions/Category"))
+     *
      * @var Collection|Category[]
      */
     private $categories;

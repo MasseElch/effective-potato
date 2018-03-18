@@ -13,6 +13,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { AnonymousGuard } from './core/guards/anonymous.guard';
 import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
   imports: [
     BrowserModule, BrowserAnimationsModule,
 
-    HttpClientModule,
+    HttpClientModule, NgbModule.forRoot(),
 
     FormsModule, ReactiveFormsModule,
 

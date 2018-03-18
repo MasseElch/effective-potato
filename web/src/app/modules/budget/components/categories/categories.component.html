@@ -1,33 +1,30 @@
-<table class="table" *ngIf="categoriesView; else spinner">
+<table class="table" *ngIf="budget; else spinner">
   <thead>
-    <tr>
-      <th scope="col" i18n>Kategorie</th>
-      <th class="text-right" scope="col" i18n>Ausgaben</th>
-      <th class="text-right" scope="col" i18n>Budget</th>
-      <th class="text-right" scope="col" i18n>Gesamt</th>
-    </tr>
+  <tr>
+    <th scope="col" i18n>Kategorie</th>
+    <th class="text-right" scope="col" i18n>Budget</th>
+    <th class="text-right" scope="col" i18n>Ausgaben</th>
+    <th class="text-right" scope="col" i18n>Verfügbar</th>
+  </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let category of categoriesView.categories">
-      <td>{{ category.title }}</td>
-      <td class="text-right">
-        <input type="text"
-               class="form-control text-right"
-               efpoSelectTextOnFocus
-               [textMask]="{mask: mask}"
-               [formControl]="currentMoneyForm.get(category.id.toString())">
-      </td>
-      <td class="text-right">
-        <input type="text"
-               class="form-control text-right"
-               efpoSelectTextOnFocus
-               [textMask]="{mask: mask}"
-               [formControl]="moneyAtMonthsForm.get(category.id.toString())">
-      </td>
-      <td class="text-right">
-        Bla
-      </td>
-    </tr>
+  <tr *ngFor="let category of budget.categories">
+    <td>{{ category.title }}</td>
+    <td class="text-right">
+      <input type="text"
+             class="form-control text-right"
+             efpoSelectTextOnFocus
+             [textMask]="{mask: mask}"
+             (change)="update()"
+             [formControl]="form.get(category.id.toString())">
+    </td>
+    <td class="text-right">
+      Ausgaben
+    </td>
+    <td class="text-right">
+      {{ category.money | hundredthCurrency }}
+    </td>
+  </tr>
   </tbody>
 </table>
 

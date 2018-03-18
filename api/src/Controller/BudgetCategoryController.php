@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Budget;
+use App\Entity\BudgetedAtMonth;
 use App\Repository\BudgetedAtMonthRepository;
-use App\Views\CategoriesView;
+use App\Views\CategoryBudgets;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,16 +28,17 @@ class BudgetCategoryController extends Controller
      * @param BudgetedAtMonthRepository $budgetedAtMonthRepository
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function categories(Budget $budget, int $year, int $month, BudgetedAtMonthRepository $budgetedAtMonthRepository)
+    public function categoryBudgets(Budget $budget, int $year, int $month, BudgetedAtMonthRepository $budgetedAtMonthRepository)
     {
-        $defaultCategory = $budget->getDefaultCategory();
-        $defaultCategoryBudgetAtMonth = $budgetedAtMonthRepository->findOneBy(['category' => $defaultCategory, 'year' => $year, 'month' => $month]);
-
         $categories = $budget->getCategories();
-        $categoryBudgetsAtMonth = $budgetedAtMonthRepository->findByCategoriesYearAndMonth($categories, $year, $month);
+        $categories[] = $budget->getDefaultCategory();
 
-        $budgetView = new CategoriesView($defaultCategory, $defaultCategoryBudgetAtMonth, $categories, $categoryBudgetsAtMonth);
+        $categoryBudgets = [];
+        foreach ($budgetedAtMonthRepository->findByCategoriesYearAndMonth($categories, $year, $month) as $budgetedAtMonth) {
+            /** @var BudgetedAtMonth $budgetedAtMonth */
+            $categoryBudgets[$budgetedAtMonth->getCategory()->getId()] = $budgetedAtMonth;
+        }
 
-        return $this->json($budgetView, Response::HTTP_OK, [], ['groups' => ['category_list', 'budget_at_month_list']]);
+        return $this->json($categoryBudgets, Response::HTTP_OK, [], ['groups' => ['budget_at_month_list']]);
     }
 }
