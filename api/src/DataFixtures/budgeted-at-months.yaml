@@ -11,8 +11,3 @@ App\Entity\BudgetedAtMonth:
 
     # add an entry for each budget (jcl, mur, shared)
     budgetedAtMonth_{jcl, mur, shared} (extends budgetedAtMonth):
-
-    budgetedAtMonth_{1..30} (extends budgetedAtMonth):
-        month: <(Cake\Chronos\Date::now()->month)>
-        money: <(new Money\Money(0, new Money\Currency($account_currency)))>
-        category: '@category_<current()>'

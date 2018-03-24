@@ -73,7 +73,7 @@ class BudgetedAtMonth
     /**
      * @return int
      */
-    public function getMonth(): int
+    public function getMonth(): ?int
     {
         return $this->month;
     }
@@ -81,7 +81,7 @@ class BudgetedAtMonth
     /**
      * @param int $month
      */
-    public function setMonth(int $month): void
+    public function setMonth(?int $month): void
     {
         $this->month = $month;
     }
@@ -89,7 +89,7 @@ class BudgetedAtMonth
     /**
      * @return int
      */
-    public function getYear(): int
+    public function getYear(): ?int
     {
         return $this->year;
     }
@@ -97,7 +97,7 @@ class BudgetedAtMonth
     /**
      * @param int $year
      */
-    public function setYear(int $year): void
+    public function setYear(?int $year): void
     {
         $this->year = $year;
     }
@@ -105,7 +105,7 @@ class BudgetedAtMonth
     /**
      * @return Money
      */
-    public function getMoney(): Money
+    public function getMoney(): ?Money
     {
         return $this->money;
     }
@@ -116,6 +116,20 @@ class BudgetedAtMonth
     public function setMoney(Money $money): void
     {
         $this->money = $money;
+    }
+
+    /**
+     * @param Money $money
+     */
+    public function addMoney(Money $money): void {
+        $this->money = $this->money->add($money);
+    }
+
+    /**
+     * @param Money $money
+     */
+    public function subtractMoney(Money $money): void {
+        $this->money = $this->money->subtract($money);
     }
 
     /**

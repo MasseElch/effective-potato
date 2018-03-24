@@ -62,7 +62,7 @@ class Category
     protected $budget;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BudgetedAtMonth", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\BudgetedAtMonth", mappedBy="category", cascade={"persist"})
      *
      * @var Collection|BudgetedAtMonth[]
      */
@@ -119,6 +119,20 @@ class Category
     public function setMoney(Money $money): void
     {
         $this->money = $money;
+    }
+
+    /**
+     * @param Money $money
+     */
+    public function addMoney(Money $money): void {
+        $this->money = $this->money->add($money);
+    }
+
+    /**
+     * @param Money $money
+     */
+    public function subtractMoney(Money $money): void {
+        $this->money = $this->money->subtract($money);
     }
 
     /**
