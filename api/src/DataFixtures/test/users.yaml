@@ -1,0 +1,5 @@
+App\Entity\User:
+
+    test_user:
+        setPlainPassword: test
+        email: testuser@mail.com
