@@ -4,6 +4,8 @@ namespace App\Tests;
 
 
 use App\Entity\Budget;
+use App\Entity\DefaultCategory;
+use App\Entity\MoneyAtMonth;
 use App\Entity\MoneyCategory;
 use Cake\Chronos\Chronos;
 use Money\Currency;
@@ -20,8 +22,11 @@ class CategoryControllerTest extends ControllerTest
         // Current date
         $date = Chronos::now();
 
+        // Get an owned budget
+        $budget = $this->getUser()->getBudgetOwnerships()[0]->getBudget();
+
         // Get a category
-        $category = $this->getUser()->getBudgetOwnerships()[0]->getBudget()->getMoneyCategories()[0];
+        $category = $budget->getMoneyCategories()[0];
 
         $client->request(
             'patch',
@@ -40,8 +45,30 @@ class CategoryControllerTest extends ControllerTest
             $client->getResponse()->getContent()
         );
 
+        // Check if the moneyCategory got updated
         $money = $em->find(MoneyCategory::class, $category->getId())->getMoney();
         self::assertTrue($money->equals(new Money(300, new Currency('EUR'))));
+
+        // Check if the MoneyAtMonth for the given category was updated
+        $money = $em->getRepository(MoneyAtMonth::class)->findOneBy([
+            'category' => $category->getId(),
+            'year' => $date->year,
+            'month' => $date->month
+        ])->getMoney();
+        self::assertTrue($money->equals(new Money(300, new Currency('EUR'))));
+
+        // Check if the defaultCategory got updated
+        $defaultCategory = $em->getRepository(DefaultCategory::class)
+            ->findOneBy(['budget' => $budget->getId()]);
+        self::assertTrue($defaultCategory->getMoney()->equals(new Money(99700, new Currency('EUR'))));
+
+        // Check if the MoneyAtMonth for the given defaultCategory was updated
+        $money = $em->getRepository(MoneyAtMonth::class)->findOneBy([
+            'category' => $defaultCategory->getId(),
+            'year' => $date->year,
+            'month' => $date->month
+        ])->getMoney();
+        self::assertTrue($money->equals(new Money(99700, new Currency('EUR'))));
     }
 
     public function testCanOnlyEditOwnedBudget()

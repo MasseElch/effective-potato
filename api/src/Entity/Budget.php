@@ -42,7 +42,7 @@ class Budget
     private $title;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\DefaultCategory")
+     * @ORM\OneToOne(targetEntity="App\Entity\DefaultCategory", mappedBy="budget")
      *
      * @Groups({"budget_details"})
      *

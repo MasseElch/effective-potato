@@ -9,5 +9,6 @@ App\Entity\DefaultCategory:
 
     # One default category for each budget (jcl, mur, shared)
     defaultCategory_{jcl, mur, shared}:
+        budget: '@budget_<current()>'
         title: <ucfirst($current)> Budget Category
         money: <(new Money\Money($account_balance, new Money\Currency($account_currency)))>
