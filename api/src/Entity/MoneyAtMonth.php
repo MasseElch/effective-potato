@@ -9,11 +9,11 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BudgetedAtMonthRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\MoneyAtMonthRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"month", "year", "category_id"})})
  * @SWG\Definition()
  */
-class BudgetedAtMonth
+class MoneyAtMonth
 {
     use TimestampableEntity;
 
@@ -56,7 +56,7 @@ class BudgetedAtMonth
     private $money;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="budgetedAtMonth")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="moneyAtMonth")
      *
      * @var Category
      */

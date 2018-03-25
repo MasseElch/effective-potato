@@ -46,7 +46,7 @@ class Budget
      *
      * @Groups({"budget_details"})
      *
-     * @var defaultCategory
+     * @var DefaultCategory
      */
     private $defaultCategory;
 
@@ -71,21 +71,21 @@ class Budget
     private $budgetOwnerships;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="budget")
+     * @ORM\OneToMany(targetEntity="MoneyCategory", mappedBy="budget")
      *
      * @Groups({"budget_details"})
      *
-     * @SWG\Property(type="array", @SWG\Items(ref="#/definitions/Category"))
+     * @SWG\Property(type="array", @SWG\Items(ref="#/definitions/BudgetCategory"))
      *
-     * @var Collection|Category[]
+     * @var Collection|MoneyCategory[]
      */
-    private $categories;
+    private $moneyCategories;
 
     public function __construct()
     {
         $this->accounts = new ArrayCollection();
         $this->budgetOwnerships = new ArrayCollection();
-        $this->categories = new ArrayCollection();
+        $this->moneyCategories = new ArrayCollection();
     }
 
     /**
@@ -113,17 +113,17 @@ class Budget
     }
 
     /**
-     * @return defaultCategory
+     * @return DefaultCategory
      */
-    public function getDefaultCategory(): defaultCategory
+    public function getDefaultCategory(): DefaultCategory
     {
         return $this->defaultCategory;
     }
 
     /**
-     * @param defaultCategory $defaultCategory
+     * @param DefaultCategory $defaultCategory
      */
-    public function setDefaultCategory(defaultCategory $defaultCategory): void
+    public function setDefaultCategory(DefaultCategory $defaultCategory): void
     {
         $this->defaultCategory = $defaultCategory;
     }
@@ -161,19 +161,19 @@ class Budget
     }
 
     /**
-     * @return Category[]|Collection
+     * @return MoneyCategory[]|Collection
      */
-    public function getCategories()
+    public function getMoneyCategories()
     {
-        return $this->categories;
+        return $this->moneyCategories;
     }
 
     /**
-     * @param Category[]|Collection $categories
+     * @param MoneyCategory[]|Collection $moneyCategories
      */
-    public function setCategories($categories): void
+    public function setMoneyCategories($moneyCategories): void
     {
-        $this->categories = $categories;
+        $this->moneyCategories = $moneyCategories;
     }
 
     /**
@@ -221,23 +221,23 @@ class Budget
     }
 
     /**
-     * @param Category $category
+     * @param MoneyCategory $category
      */
-    public function addCategory(Category $category)
+    public function addCategory(MoneyCategory $category)
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
+        if (!$this->moneyCategories->contains($category)) {
+            $this->moneyCategories->add($category);
             $category->setBudget($this);
         }
     }
 
     /**
-     * @param Category $category
+     * @param MoneyCategory $category
      */
-    public function removeCategory(Category $category)
+    public function removeCategory(MoneyCategory $category)
     {
-        if ($this->categories->contains($category)) {
-            $this->categories->removeElement($category);
+        if ($this->moneyCategories->contains($category)) {
+            $this->moneyCategories->removeElement($category);
             $category->setBudget(null);
         }
     }

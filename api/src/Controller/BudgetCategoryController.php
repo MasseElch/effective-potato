@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Budget;
-use App\Entity\BudgetedAtMonth;
-use App\Repository\BudgetedAtMonthRepository;
+use App\Entity\MoneyAtMonth;
+use App\Repository\MoneyAtMonthRepository;
 use App\Views\CategoryBudgets;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,17 +26,17 @@ class BudgetCategoryController extends Controller
      * @param Budget $budget
      * @param int $year
      * @param int $month
-     * @param BudgetedAtMonthRepository $budgetedAtMonthRepository
+     * @param MoneyAtMonthRepository $budgetedAtMonthRepository
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function categoryBudgets(Budget $budget, int $year, int $month, BudgetedAtMonthRepository $budgetedAtMonthRepository)
+    public function categoryBudgets(Budget $budget, int $year, int $month, MoneyAtMonthRepository $budgetedAtMonthRepository)
     {
-        $categories = $budget->getCategories();
+        $categories = $budget->getMoneyCategories();
         $categories[] = $budget->getDefaultCategory();
 
         $categoryBudgets = [];
         foreach ($budgetedAtMonthRepository->findByCategoriesYearAndMonth($categories, $year, $month) as $budgetedAtMonth) {
-            /** @var BudgetedAtMonth $budgetedAtMonth */
+            /** @var MoneyAtMonth $budgetedAtMonth */
             $categoryBudgets[$budgetedAtMonth->getCategory()->getId()] = $budgetedAtMonth;
         }
 

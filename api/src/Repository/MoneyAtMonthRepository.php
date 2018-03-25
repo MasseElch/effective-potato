@@ -2,32 +2,32 @@
 
 namespace App\Repository;
 
-use App\Entity\BudgetedAtMonth;
 use App\Entity\Category;
+use App\Entity\MoneyAtMonth;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method BudgetedAtMonth|null find($id, $lockMode = null, $lockVersion = null)
- * @method BudgetedAtMonth|null findOneBy(array $criteria, array $orderBy = null)
- * @method BudgetedAtMonth[]    findAll()
- * @method BudgetedAtMonth[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MoneyAtMonth|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MoneyAtMonth|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MoneyAtMonth[]    findAll()
+ * @method MoneyAtMonth[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BudgetedAtMonthRepository extends ServiceEntityRepository
+class MoneyAtMonthRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, BudgetedAtMonth::class);
+        parent::__construct($registry, MoneyAtMonth::class);
     }
 
     // todo
     public function findByCategoriesYearAndMonth(Collection $categories, int $year, int $month)
     {
-        return $this->createQueryBuilder('budgetedAtMonth')
-            ->where('budgetedAtMonth.category in (:categories)')
-            ->andWhere('budgetedAtMonth.year = :year')
-            ->andWhere('budgetedAtMonth.month = :month')
+        return $this->createQueryBuilder('money_at_month')
+            ->where('money_at_month.category in (:categories)')
+            ->andWhere('money_at_month.year = :year')
+            ->andWhere('money_at_month.month = :month')
             ->setParameter('categories', $categories)
             ->setParameter('year', $year)
             ->setParameter('month', $month)

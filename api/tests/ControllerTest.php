@@ -14,12 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class ControllerTest extends WebTestCase
 {
+    const defaultUserEmail = 'jcl@masseelch.de';
+
     protected function createAnonymousClient()
     {
         return static::createClient();
     }
 
-    protected function createAuthenticatedClient($email = 'testuser@mail.com')
+    protected function createAuthenticatedClient($email = self::defaultUserEmail)
     {
         $client = static::createClient();
 
@@ -38,4 +40,14 @@ abstract class ControllerTest extends WebTestCase
         return $client;
     }
 
+    protected function getUser($email = self::defaultUserEmail): User
+    {
+        return self::createClient()
+            ->getContainer()
+            ->get('doctrine')
+            ->getManager()
+            ->getRepository(User::class)
+            ->findOneBy(compact('email'))
+        ;
+    }
 }

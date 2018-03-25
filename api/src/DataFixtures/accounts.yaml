@@ -1,5 +1,5 @@
 include:
-    - ../parameters.yaml
+    - parameters.yaml
 
 App\Entity\Account:
 

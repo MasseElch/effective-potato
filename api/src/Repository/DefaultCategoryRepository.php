@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\DefaultCategory;
+use App\Entity\DefaultMoneyCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method DefaultCategory|null find($id, $lockMode = null, $lockVersion = null)
- * @method DefaultCategory|null findOneBy(array $criteria, array $orderBy = null)
- * @method DefaultCategory[]    findAll()
- * @method DefaultCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method DefaultMoneyCategory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method DefaultMoneyCategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method DefaultMoneyCategory[]    findAll()
+ * @method DefaultMoneyCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class DefaultCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, DefaultCategory::class);
+        parent::__construct($registry, DefaultMoneyCategory::class);
     }
 
     /*

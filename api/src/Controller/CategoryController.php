@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\BudgetedAtMonth;
-use App\Entity\Category;
-use App\Services\CategoryBudgetService;
+use App\Entity\MoneyCategory;
+use App\Security\Voter\CategoryVoter;
+use App\Services\MoneyCategoryManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Money\Currency;
 use Money\Money;
@@ -25,20 +25,22 @@ class CategoryController extends Controller
      * @Rest\Patch("/{id}/{year}/{month}")
      *
      * @param Request $request
-     * @param Category $category
+     * @param MoneyCategory $moneyCategory
      * @param int $year
      * @param int $month
-     * @param CategoryBudgetService $categoryBudgetService
+     * @param MoneyCategoryManager $categoryMoneyService
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function updateCategoryBudget(Request $request, Category $category, int $year, int $month, CategoryBudgetService $categoryBudgetService)
+    public function updateCategoryMoney(Request $request, MoneyCategory $moneyCategory, int $year, int $month, MoneyCategoryManager $categoryMoneyService)
     {
+        $this->denyAccessUnlessGranted(CategoryVoter::EDIT, $moneyCategory);
+
         // Create the money
         $money = $request->request->get('money');
         $money = new Money($money['amount'], new Currency($money['currency']));
 
-        $categoryBudgetService->updateCategoryBudget($category, $year, $month, $money);
+        $categoryMoneyService->updateMoneyCategory($moneyCategory, $year, $month, $money);
 
-        return $this->json($category, Response::HTTP_OK, [], ['groups' => ['budget_detail', 'budget_at_month_list']]);
+        return $this->json($moneyCategory, Response::HTTP_OK, [], ['groups' => ['budget_detail', 'budget_at_month_list']]);
     }
 }

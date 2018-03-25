@@ -2,15 +2,16 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Budget;
+use App\Entity\Category;
+use App\Entity\MoneyCategory;
 use App\Repository\BudgetOwnershipRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class BudgetVoter extends Voter
+class CategoryVoter extends Voter
 {
-    const VIEW = 'VIEW';
+    const EDIT = 'EDIT';
 
     /**
      * @var BudgetOwnershipRepository
@@ -26,8 +27,8 @@ class BudgetVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::VIEW])
-            && $subject instanceof Budget;
+        return in_array($attribute, [self::EDIT])
+            && $subject instanceof MoneyCategory;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -38,15 +39,14 @@ class BudgetVoter extends Voter
             return false;
         }
 
-        /** @var Budget $budget */
-        $budget = $subject;
+        /** @var Category $category */
+        $category = $subject;
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case self::VIEW:
-                // Can only view if there does exist an ownership of the given budget
-                return $this->budgetOwnershipRepository->count(['user' => $user, 'budget' => $budget]);
-                break;
+            case self::EDIT:
+                // Can only edit if the category's budget is owned by the current user
+                return $this->budgetOwnershipRepository->count(['user' => $user, 'budget' => $category->getBudget()]);
         }
 
         return false;

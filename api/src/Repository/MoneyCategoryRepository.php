@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method MoneyCategory[]    findAll()
  * @method MoneyCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
+class MoneyCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
