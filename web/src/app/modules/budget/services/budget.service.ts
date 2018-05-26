@@ -31,7 +31,7 @@ export class BudgetService {
     }
     this._budget$[id] = this.http
       .get<BudgetInterface>('/budgets/' + id)
-      .do(_ => this._budget$[id] = null)
+      .do(() => this._budget$[id] = null)
       .share();
 
     return this._budget$[id];

@@ -12,7 +12,7 @@
 import { MoneyInterface } from './money';
 
 
-export interface BudgetedAtMonthInterface { 
+export interface MoneyAtMonthInterface { 
     id?: number;
     money?: MoneyInterface;
 }
